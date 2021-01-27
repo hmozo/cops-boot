@@ -1,8 +1,10 @@
 package com.infoq.user;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -34,5 +36,38 @@ class UserRepositoryTest {
 		assertNotNull(user);
 		assertEquals(repository.count(), 1L);
 	}
-
+	
+	@Test
+	void shouldFindUserByEmail() {
+		User user= Users.newRandomOfficer();
+		repository.save(user);
+		
+		Optional<User> optional= repository.findByEmailIgnoreCase(user.getEmail());
+		
+		assertThat(optional).isNotEmpty().contains(user);
+	}
+	
+	@Test
+	void shouldFindUserByEmailIgnoringCase() {
+		User user= Users.newRandomOfficer();
+		repository.save(user);
+		
+		Optional<User> optional= repository.findByEmailIgnoreCase(user.getEmail().toUpperCase());
+		
+		assertThat(optional).isNotEmpty().contains(user);
+	}
+	
+	@Test
+	void shouldNotFindUserByEmail_unknownEmail() {
+		User user= Users.newRandomOfficer();
+		repository.save(user);
+		
+		Optional<User> optional= repository.findByEmailIgnoreCase("will.not@find.me");
+		
+		assertThat(optional).isEmpty();
+	}
+	
+	
+	
+	
 }
