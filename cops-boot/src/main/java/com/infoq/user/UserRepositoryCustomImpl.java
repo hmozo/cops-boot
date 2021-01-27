@@ -4,11 +4,11 @@ import java.util.UUID;
 
 import com.infoq.orm.jpa.UniqueIdGenerator;
 
-public class UserRepositoryImpl implements UserRepositoryCustom{
+public class UserRepositoryCustomImpl implements UserRepositoryCustom{
 
 	private final UniqueIdGenerator<UUID> generator; 
 	
-	public UserRepositoryImpl(UniqueIdGenerator generator) {
+	public UserRepositoryCustomImpl(UniqueIdGenerator generator) {
 		this.generator= generator;
 	}
 	
